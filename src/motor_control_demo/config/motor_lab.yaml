@@ -1,0 +1,13 @@
+motor_controller:
+  ros__parameters:
+    kp: 0.7
+    ki: 1.8
+    max_voltage: 12.0
+    control_rate_hz: 100.0
+
+motor_simulator:
+  ros__parameters:
+    motor_gain: 3.0
+    time_constant: 0.25
+    simulation_rate_hz: 200.0
+
