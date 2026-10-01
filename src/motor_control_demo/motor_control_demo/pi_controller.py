@@ -15,17 +15,18 @@ class PIController:
     def update(self, error: float, dt: float) -> float:
         if dt <= 0.0:
             raise ValueError('dt must be positive')
-
+        #累计误差 = 原累计误差 + 当前误差 × 时间间隔
+        #输出电压 = Kp × 当前误差 + Ki × 累计误差
         candidate_integral = self.integral + error * dt
         candidate_output = self.kp * error + self.ki * candidate_integral
         saturated_output = max(
-            -self.output_limit,
+            -self.output_limit, 
             min(self.output_limit, candidate_output),
         )
-
+    
         # Only integrate when unsaturated, or when the error drives the output
         # back toward the permitted range.
-        is_unsaturated = candidate_output == saturated_output
+        is_unsaturated = candidate_output == saturated_output  #积分抗饱和
         drives_back = (
             candidate_output > self.output_limit and error < 0.0
         ) or (
